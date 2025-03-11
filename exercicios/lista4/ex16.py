@@ -42,9 +42,8 @@ while True:
         break
 
 print("Numeros informados: ")
-soma = 0
+soma = sum(listaDeNumeros)
 for numero in listaDeNumeros:
-    soma += numero
     print(numero, end=" ")
 
 print("=" * 30)
