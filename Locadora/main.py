@@ -91,5 +91,5 @@ while opcaoEscolhida != 5:
         print('Programa encerrado com sucesso')
 
     else:
-        print('\033[31mOpcao invalida! Escolha entre 1 e 4. \033[m')
+        print('\033[31mOpcao invalida! Escolha entre 1 e 6. \033[m')
         sleep(1)
