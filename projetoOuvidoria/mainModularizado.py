@@ -2,6 +2,9 @@ from time import sleep
 
 
 def exibir_menu():
+    """
+    Exibe o menu de opções do sistema para o usuário.
+    """
     print("=" * 30)
     print("1) Listagem das Manifestações\n"
           "2) Criar uma nova Manifestação\n"
@@ -12,6 +15,10 @@ def exibir_menu():
 
 
 def validar_opcao():
+    """
+    Solicita ao usuário uma opção válida entre 1 e 5.
+    Retorna a opção escolhida.
+    """
     while True:
         try:
             opcao = int(input("Digite sua opcao: "))
@@ -24,6 +31,10 @@ def validar_opcao():
 
 
 def listar_manifestacoes(lista):
+    """
+    Lista todas as manifestações cadastradas.
+    Se não houver manifestações, informa ao usuário.
+    """
     if not lista:
         print("Nao ha manifestacoes")
         sleep(1)
@@ -35,6 +46,10 @@ def listar_manifestacoes(lista):
 
 
 def criar_manifestacao(lista):
+    """
+    Permite ao usuário criar uma nova manifestação e adicioná-la à lista.
+    Exibe o código da manifestação cadastrada.
+    """
     manifestacao = input("Descreva sua manifestacao: ")
     lista.append(manifestacao)
     sleep(0.3)
@@ -43,11 +58,18 @@ def criar_manifestacao(lista):
 
 
 def exibir_quantidade_manifestacoes(lista):
+    """
+    Exibe a quantidade total de manifestações cadastradas.
+    """
     print(f"Existem {len(lista)} manifestacoes cadastradas")
     sleep(1)
 
 
 def pesquisar_manifestacao(lista):
+    """
+    Permite ao usuário pesquisar uma manifestação pelo código.
+    Se o código for inválido, informa o erro.
+    """
     while True:
         try:
             codigo = int(input("Digite o codigo da manisfetacao: "))
@@ -62,6 +84,10 @@ def pesquisar_manifestacao(lista):
 
 
 def main():
+    """
+    Função principal que gerencia o fluxo do programa.
+    Mantém o loop do menu até que o usuário escolha sair.
+    """
     opcao = -1
     listaDeManifestacoes = []
 
