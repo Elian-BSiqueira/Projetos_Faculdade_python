@@ -13,6 +13,8 @@ while opcao != 5:
     opcao = int(input("Digite sua opcao: "))
 
     while opcao <= 0 or opcao > 5:
+        # verifica se a entrada é uma opção valida
+
         print(f"\033[31mERRO. opcao invalida\033[m")
         opcao = int(input("Digite sua opcao: "))
 

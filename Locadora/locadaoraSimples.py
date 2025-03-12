@@ -60,6 +60,9 @@ while opcaoEscolhida != 5:
 
     elif opcaoEscolhida == 4:
         adicionarFilme = input('Digite o nome do filme que deseja adicionar: ').strip().title()
+        while len(adicionarFilme) == 0:
+            print("Filme não pode ser vazio")
+            adicionarFilme = input('Digite o nome do filme que deseja adicionar: ').strip().title()
         filmes.append(adicionarFilme)
         print(f'Filme {adicionarFilme} adicionado com sucesso')
 

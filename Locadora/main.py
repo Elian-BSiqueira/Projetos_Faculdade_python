@@ -1,11 +1,11 @@
 from time import sleep
 
-
-
 filmes = ['Os Banshees de Inisherin', 'Barbie', 'John Wick 4: Baba Yaga', 'Creed III', 'Top Gun: Maverick',
     'Assassinos da Lua das Flores', 'Close', 'Sorria', 'Homem-Aranha: Através do Aranhaverso', 'Oppenheimer']
 
 def exibirmenu():
+    # Exibe o menu do programa
+
     print('=' * 30)
     print('Locadora'.center(28))
     print('=' * 30)
@@ -16,6 +16,8 @@ def exibirmenu():
           'Opcao 5 - Sair')
 
 def listarfilmes():
+    # Lista os filmes disponiveis para algugar
+
     if filmes:
         print('Filmes disponíveis:')
         for i, filme in enumerate(filmes, start=1):
@@ -34,18 +36,20 @@ def alugarfilme():
 
     listarfilmes()
 
-    try:
-        numeroDoFilmeEscolhido = int(input('Digite o numero do filme que deseja alugar: '))
-        if 0 < numeroDoFilmeEscolhido < len(filmes) + 1:
-            filmeAlugado = filmes.pop(numeroDoFilmeEscolhido - 1)
-            print(f'filme {filmeAlugado} alugado com sucesso')
+    while True:
+        try:
+            numeroDoFilmeEscolhido = int(input('Digite o numero do filme que deseja alugar: '))
+            if 0 < numeroDoFilmeEscolhido < len(filmes) + 1:
+                filmeAlugado = filmes.pop(numeroDoFilmeEscolhido - 1)
+                print(f'filme {filmeAlugado} alugado com sucesso')
+                break
 
-        else:
-            print('\033[31mNumero invalido. Escolha um filme da lita\033[m')
+            else:
+                print('\033[31mNumero invalido. Escolha um filme da lita\033[m')
 
-    except ValueError:
-        print('ERRO. DIGITE APENAS NUMEROS')
-    sleep(0.3)
+        except ValueError:
+            print('ERRO. DIGITE APENAS NUMEROS')
+        sleep(0.3)
 
 def devolverFilme():
     # Permite o usuario devolver um filme
@@ -55,6 +59,8 @@ def devolverFilme():
     print(f'Filme {filmeDevolvido} Devolvido com sucesso')
 
 def adicionarFilme():
+    # Permite o usuario adicionar um filme para alugar
+
     AdicionarFilme = input("Digite o nome do filme que deseja adionar a lista de filmes disponiveis para alugar: ")
     filmes.append(AdicionarFilme)
     print(f"Filme {AdicionarFilme} adicionado com sucesso")
