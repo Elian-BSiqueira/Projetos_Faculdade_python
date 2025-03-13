@@ -1,3 +1,11 @@
+"""
+Grupo: Elian Barros
+       Lucas Vicent
+       Luiz Matheus Farias
+       Rafael
+"""
+
+
 # Etapa 1
 # Codigo simplificado sem usar bloco try except ou verificacoes complexas
 
