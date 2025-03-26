@@ -1,6 +1,5 @@
 from time import sleep
 
-
 def exibir_menu():
     """
     Exibe o menu de opções do sistema para o usuário.

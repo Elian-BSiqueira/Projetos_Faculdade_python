@@ -1,5 +1,6 @@
 from time import sleep
 
+
 filmes = ['Os Banshees de Inisherin', 'Barbie', 'John Wick 4: Baba Yaga', 'Creed III', 'Top Gun: Maverick',
     'Assassinos da Lua das Flores', 'Close', 'Sorria', 'Homem-Aranha: Através do Aranhaverso', 'Oppenheimer']
 
