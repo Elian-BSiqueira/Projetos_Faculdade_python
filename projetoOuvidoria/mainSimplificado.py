@@ -1,3 +1,11 @@
+"""
+Grupo: Elian Barros
+       Lucas Vicent
+       Luiz Matheus Farias
+       Rafael Barbosa de Melo
+"""
+
+
 # Etapa 1
 # Codigo simplificado sem usar bloco try except ou verificacoes complexas
 
@@ -31,17 +39,6 @@ while opcao != 5:
             for manif in listaDeManifestacoes:
                 print(f"{contador}) {manif}")  # Exibe cada manifestação numerada
                 contador += 1
-
-            '''
-            No lugar do contador manual pode usar o 'for' da seguinte forma para Gerar um índice numérico 
-            automaticamente para cada elemento. Isso evita a necessidade de criar um contador manualmente:
-            enumerate(sequencia) - A sequência (lista, tupla, string, etc.) que será percorrida.
-
-            for c, manif in enumarate(listaDeManifestacoes, start=1):
-            start=1 faz com que o indice inicial que sera mostrado sera 1
-            Dessa forma 'c' recebe o indice de cada elemento da lista 1, 2, 3... de acordo com o tamanho da lista
-            Enquanto 'manif', variavel temporaria, recebe o primeiro, segundo, terceiro... valor da lista
-            '''
 
     # Opção 2: Criar uma nova manifestação
     elif opcao == 2:
