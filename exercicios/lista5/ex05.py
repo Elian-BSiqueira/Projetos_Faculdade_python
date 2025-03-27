@@ -6,6 +6,7 @@ def notasAluno(*quantidadeNotas):
     for nota in quantidadeNotas:
         print(nota, end=" ")
     listaNotas.sort(reverse=True)
-    return print(f"\nA maior nota e {listaNotas[0]}")
+    return f"\nA maior nota e {listaNotas[0]}"
 
-notasAluno(1, 2, 4, 7, 10, 9)
+notas = notasAluno(1, 2, 4, 7, 10, 9)
+print(notas)
