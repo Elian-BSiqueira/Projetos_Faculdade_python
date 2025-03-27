@@ -20,7 +20,7 @@ while opcaoEscolhida != 5:
     if opcaoEscolhida.isdigit():
         opcaoEscolhida = int(opcaoEscolhida)
     else:
-        print('\033[31;1mERRO. DIGITE APENAS NUMEROS\033[m')
+        print('\033[31mERRO. DIGITE APENAS NUMEROS\033[m')
         sleep(0.5)
         continue
 
