@@ -20,7 +20,7 @@ while opcaoEscolhida != 5:
     if opcaoEscolhida.isdigit():
         opcaoEscolhida = int(opcaoEscolhida)
     else:
-        print('\033[31mERRO. DIGITE APENAS NUMEROS\033[m')
+        print('\033[31;1mERRO. DIGITE APENAS NUMEROS\033[m')
         sleep(0.5)
         continue
 
@@ -48,9 +48,9 @@ while opcaoEscolhida != 5:
                     filmeAlugado = filmes.pop(numeroDoFilmeEscolhido - 1)
                     print(f'Filme {filmeAlugado} alugado com sucesso')
                 else:
-                    print('\033[31mNúmero inválido. Escolha um filme da lista.\033[m')
+                    print('\033[31;1mNúmero inválido. Escolha um filme da lista.\033[m')
             else:
-                print('\033[31mERRO. DIGITE APENAS NUMEROS\033[m')
+                print('\033[31;1mERRO. DIGITE APENAS NUMEROS\033[m')
         sleep(0.3)
 
     elif opcaoEscolhida == 3:
@@ -70,5 +70,5 @@ while opcaoEscolhida != 5:
         print('Programa encerrado com sucesso')
 
     else:
-        print('\033[31mOpcao invalida! Escolha entre 1 e 5.\033[m')
+        print('\033[31;1mOpcao invalida! Escolha entre 1 e 5.\033[m')
         sleep(1)
