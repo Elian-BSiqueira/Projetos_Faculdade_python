@@ -1,5 +1,5 @@
 from time import sleep
-from funcoes.funcoes_mysql import *
+from funcoes_mysql import *
 from Locadora.config import *
 
 conexao = criarConexao(host, user, password, database)

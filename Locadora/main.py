@@ -1,5 +1,4 @@
-from time import sleep
-from funcoes.funcoes_locadora import *
+from Locadora.funcoes_locadora import *
 
 
 opcaoEscolhida = None
