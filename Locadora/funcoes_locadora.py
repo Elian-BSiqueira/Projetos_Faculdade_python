@@ -7,6 +7,7 @@ quantidade_de_filmes = listarBancoDados(conexao, 'select count(*) from filmes')
 quantidade_de_filmes = quantidade_de_filmes[0][0]
 codigos_de_filmes = listarBancoDados(conexao, "select codigo from filmes")
 codigos_filmes_disponiveis = []
+
 for codigo in codigos_de_filmes:
     code = codigo[0]
     codigos_filmes_disponiveis.append(code)
