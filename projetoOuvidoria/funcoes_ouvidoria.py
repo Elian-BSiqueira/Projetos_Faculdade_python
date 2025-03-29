@@ -1,9 +1,7 @@
 from funcoes_mysql import *
 from config import *
 
-conexao = criarConexao(host, user, password, database)
-quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
-quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
+
 
 def exibir_menu():
     """
@@ -62,16 +60,26 @@ def pesquisar_manifestacao(conexao, codigo):
     Permite ao usuário pesquisar uma manifestação pelo código.
     Se o código for inválido, informa o erro.
     """
+    manifestacao_pesquisada = []
+
     if  codigo > quantidade_de_manifestacoes or codigo < 0:
-        return "\033[31;1mCodigo pesquisado invalido\033[m"
+        manifestacao_pesquisada.append("\033[31;1mCodigo pesquisado invalido\033[m")
+        return manifestacao_pesquisada
 
     else:
 
         sql_manifestacao = "select * from manifestacoes where codigo = %s"
-        manifestacao_pesquisada = listarBancoDados(conexao,sql_manifestacao, (codigo, ))
+        codigo_pesquisado = listarBancoDados(conexao,sql_manifestacao, (codigo, ))
+
+
+        for codigo, avaliacao, descricao_manifestacao, data in codigo_pesquisado:
+            manifestacao_pesquisada.append(f"{codigo}. Nota {avaliacao}\n {descricao_manifestacao}\n" +
+                                           f"Criada em {data}\n" + "-" * 30)
 
         return manifestacao_pesquisada
 
 
-
+conexao = criarConexao(host, user, password, database)
+quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
+quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
 

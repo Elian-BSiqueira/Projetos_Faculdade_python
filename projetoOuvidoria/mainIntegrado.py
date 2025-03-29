@@ -1,6 +1,12 @@
 from time import sleep
 from funcoes_ouvidoria import *
 
+def listagem_das_manifestacoes(lista):
+    for manifestacao in lista:
+        print(manifestacao)
+        sleep(0.5)
+
+
 def validar_opcao(texto):
     while True:
         try:
@@ -16,12 +22,6 @@ def validar_opcao(texto):
         except ValueError:
             print("\033[31;1mERRO. Digite um valor valido\033[m")
 
-
-
-
-
-lista_manifestacoes = listar_manifestacoes(conexao)
-
 def main():
     """
     Função principal que gerencia o fluxo do programa.
@@ -32,12 +32,13 @@ def main():
     while opcao != 5:
         print(exibir_menu())
         opcao = validar_opcao("Digite sua opcao: ")
+        quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
+        quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
+        lista_manifestacoes = listar_manifestacoes(conexao)
 
         if opcao == 1:
             sleep(0.5)
-            for manifestacao in lista_manifestacoes:
-                print(manifestacao)
-                sleep(0.5)
+            listagem_das_manifestacoes(lista_manifestacoes)
 
         elif opcao == 2:
             nota = validar_opcao("Digite uma nota entre 1 e 5: ")
@@ -49,16 +50,16 @@ def main():
 
         elif opcao == 4:
             sleep(0.5)
-            for manifestacao in lista_manifestacoes:
-                print(manifestacao)
-                sleep(0.5)
+            listagem_das_manifestacoes(lista_manifestacoes)
 
             while True:
                 try:
                     codigo = int(input("Digite o codigo da manisfetacao: "))
 
                     if 0 < codigo <= quantidade_de_manifestacoes:
-                        print(pesquisar_manifestacao(conexao, codigo))
+                        manifestacao_pesquisada = pesquisar_manifestacao(conexao, codigo)
+                        for item in manifestacao_pesquisada:
+                            print(item)
                         break
 
                     else:
