@@ -24,11 +24,14 @@ def listar_manifestacoes(conexao):
     """
     sql_listagem = "select codigo, avaliacao, descricao_manifestacao from manifestacoes"
     lista_de_manifestacoes = listarBancoDados(conexao, sql_listagem)
+
+    manifestacoes = []
+
     if not lista_de_manifestacoes:
-        return "Nao ha manifestacoes"
+        manifestacoes.append("Nao ha manifestacoes")
+        return manifestacoes
 
     else:
-        manifestacoes = []
         for codigo, avaliacao, descricao_manifestacao in lista_de_manifestacoes:
             manifestacoes.append(f"{codigo}. Nota {avaliacao}\n {descricao_manifestacao}\n" + "-" * 30)
 
@@ -51,8 +54,8 @@ def exibir_quantidade_manifestacoes(conexao):
     """
     Exibe a quantidade total de manifestações cadastradas.
     """
-    global quantidade_de_manifestacoes
-    return f"Quantidade de manifestacoes cadastradas: {quantidade_de_manifestacoes}"
+    quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
+    return f"Quantidade de manifestacoes cadastradas: {quantidade_de_manifestacoes[0][0]}"
 
 def pesquisar_manifestacao(conexao, codigo):
     """
@@ -63,7 +66,6 @@ def pesquisar_manifestacao(conexao, codigo):
         return "\033[31;1mCodigo pesquisado invalido\033[m"
 
     else:
-        lista_de_manifestacoes = listarBancoDados(conexao, "select codigo, descricao_manifestacao from manifestacoes")
 
         sql_manifestacao = "select * from manifestacoes where codigo = %s"
         manifestacao_pesquisada = listarBancoDados(conexao,sql_manifestacao, (codigo, ))
