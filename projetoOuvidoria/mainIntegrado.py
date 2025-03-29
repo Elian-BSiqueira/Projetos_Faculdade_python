@@ -1,5 +1,6 @@
 from time import sleep
-from funcoes_ouvidoria import *
+from funcoes_ouvidoria import * # Codigo de autoria de Daniel Abella, professor da unifacisa
+
 
 def listagem_das_manifestacoes(lista):
     for manifestacao in lista:
