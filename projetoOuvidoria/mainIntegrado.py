@@ -1,5 +1,5 @@
 from time import sleep
-from funcoes_ouvidoria import * # Codigo de autoria de Daniel Abella, professor da unifacisa
+from funcoes_ouvidoria import *
 
 
 def listagem_das_manifestacoes(lista):
@@ -29,14 +29,14 @@ def validar_tipo_manifestacao():
     for tipo in tipos_de_manifestacoes:
         print(tipo)
     print("-" * 30)
-    tipo = input("Digite o tipo da manifestacao: ").capitalize().strip()
+    tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
 
     while tipo not in tipos_de_manifestacoes:
         print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
         print("Tipos de manifestacoes: ")
         for tipo in tipos_de_manifestacoes:
             print(tipo)
-        tipo = input("Digite o tipo da manifestacao: ").capitalize().strip()
+        tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
 
     return tipo
 
