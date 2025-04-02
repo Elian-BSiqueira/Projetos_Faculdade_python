@@ -32,7 +32,7 @@ CREATE TABLE `manifestacoes` (
   `data_hora` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`codigo`),
   CONSTRAINT `manifestacoes_chk_1` CHECK ((`avaliacao` between 1 and 5))
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
