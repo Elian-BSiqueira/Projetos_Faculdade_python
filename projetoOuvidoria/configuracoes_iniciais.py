@@ -1,5 +1,6 @@
 from funcoes_mysql import *
 from config import *
+from time import sleep
 
 conexao = criarConexao(host, user, password, database)
 quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")

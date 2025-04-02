@@ -76,7 +76,10 @@ def criar_manifestacao(conexao, nota, tipo, manifestacao):
     codigo_atual = insertNoBancoDados(conexao, inserir_manifestacao, dados)
 
 
-    return f"Manifestacao cadastrada com sucesso. Seu codigo e {codigo_atual}"
+    return (f"Manifestacao cadastrada com sucesso. Seu codigo e {codigo_atual} "
+            f"{f'Obrigado pela nota {nota}' if nota >= 3 else 
+            '\nLamentamos que sua experiência não tenha sido satisfatória. '
+            'Seu feedback é muito importante para melhorarmos nossos serviços.'}")
 
 def exibir_quantidade_manifestacoes(conexao):
     """
@@ -127,3 +130,59 @@ def excluir_manifestacao(conexao, codigo):
 
         return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
                 f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
+
+
+
+# Funcoes para o programa principal da ouvidoria:
+
+def listagem_das_manifestacoes(lista):
+    for manifestacao in lista:
+        print(manifestacao)
+        sleep(0.5)
+
+
+def validar_opcao(texto):
+    while True:
+        try:
+            opcao = int(input(texto))
+
+            if 1 <= opcao <= 7:
+                return opcao
+
+
+            else:
+                print("\033[31;1mDigite um valor entre 1 e 7\033[m")
+
+        except ValueError:
+            print("\033[31;1mERRO. Digite um valor valido\033[m")
+
+def validar_tipo_manifestacao():
+    tipos_de_manifestacoes = ["Sugestao", "Elogio", "Reclamacao"]
+    print("Tipos de manifestacoes: ")
+    for tipo in tipos_de_manifestacoes:
+        print(tipo)
+    print("-" * 30)
+    tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
+
+    while tipo not in tipos_de_manifestacoes:
+        print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
+        print("Tipos de manifestacoes: ")
+        for tipo in tipos_de_manifestacoes:
+            print(tipo)
+        tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
+
+    return tipo
+
+def validar_codigo_da_manifestacao():
+    while True:
+        try:
+            codigo = int(input("Digite o codigo da manisfetacao: "))
+
+            if codigo > 0 and codigo in codigos_filmes_disponiveis:
+                return codigo
+
+            else:
+                print("\033[31;1mCódigo inválido!\033[m")
+
+        except ValueError:
+            print("\033[31;1mEntrada invalida!\033[m")
