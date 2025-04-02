@@ -28,6 +28,7 @@ def validar_tipo_manifestacao():
     print("Tipos de manifestacoes: ")
     for tipo in tipos_de_manifestacoes:
         print(tipo)
+    print("-" * 30)
     tipo = input("Digite o tipo da manifestacao: ").capitalize().strip()
 
     while tipo not in tipos_de_manifestacoes:
@@ -44,7 +45,7 @@ def validar_codigo_da_manifestacao():
         try:
             codigo = int(input("Digite o codigo da manisfetacao: "))
 
-            if 0 < codigo <= quantidade_de_manifestacoes:
+            if codigo > 0 and codigo in codigos_filmes_disponiveis:
                 return codigo
 
             else:
@@ -96,6 +97,7 @@ def main():
             manifestacao_pesquisada = pesquisar_manifestacao(conexao, codigo)
             for item in manifestacao_pesquisada:
                 print(item)
+            sleep(1)
 
         elif opcao == 6:
             codigo = validar_codigo_da_manifestacao()

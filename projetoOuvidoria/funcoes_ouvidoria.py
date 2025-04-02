@@ -2,7 +2,6 @@ from funcoes_mysql import *
 from config import *
 
 
-
 def exibir_menu():
     """
         Exibe o menu de opções do sistema para o usuário.
@@ -98,7 +97,7 @@ def pesquisar_manifestacao(conexao, codigo):
     """
     manifestacao_pesquisada = []
 
-    if  codigo > quantidade_de_manifestacoes or codigo < 0:
+    if  codigo not in codigos_filmes_disponiveis or codigo < 0:
         manifestacao_pesquisada.append("\033[31;1mCodigo pesquisado invalido\033[m")
         return manifestacao_pesquisada
 
@@ -136,4 +135,11 @@ def excluir_manifestacao(conexao, codigo):
 conexao = criarConexao(host, user, password, database)
 quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
 quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
+
+codigos_de_manifestacoes = listarBancoDados(conexao, "select codigo from manifestacoes")
+codigos_filmes_disponiveis = []
+
+for codigo in codigos_de_manifestacoes:
+    code = codigo[0]
+    codigos_filmes_disponiveis.append(code)
 
