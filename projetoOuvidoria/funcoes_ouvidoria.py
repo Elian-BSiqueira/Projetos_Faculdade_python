@@ -1,4 +1,9 @@
-from configuracoes_iniciais import *
+from mysql.connector.constants import flag_is_set
+from funcoes_mysql import *
+from config import *
+from time import sleep
+
+conexao = criarConexao(host, user, password, database)
 
 def exibir_menu():
     """
@@ -23,22 +28,44 @@ def listar_manifestacoes(conexao):
     :param conexao: Conexao do banco de dados
     :return: Lista com as manifestacoes
     """
+    sql_listagem = "select avaliacao, tipo, descricao_manifestacao from manifestacoes"
+    lista_de_manifestacoes = listarBancoDados(conexao, sql_listagem)
+
+    manifestacoes = []
+
+    if not lista_de_manifestacoes:
+        return ["Nao ha manifestacoes"]
+
+    else:
+        for i, (avaliacao, tipo, descricao_manifestacao) in enumerate(lista_de_manifestacoes,start=1):
+            manifestacoes.append(f"{i}. Nota {avaliacao}. Tipo da manifestacao: {tipo}\n"
+                                 f" {descricao_manifestacao}\n" +
+                                 "-" * 30)
+
+    return manifestacoes
+
+def listar_manifestacao_com_codigo(conexao):
+    """
+    Lista as manifestacoes mostrando seu codigo
+    :param conexao: Conexao do banco de dados
+    :return: Lista das manifestacoes com codigos
+    """
     sql_listagem = "select codigo, avaliacao, tipo, descricao_manifestacao from manifestacoes"
     lista_de_manifestacoes = listarBancoDados(conexao, sql_listagem)
 
     manifestacoes = []
 
     if not lista_de_manifestacoes:
-        manifestacoes.append("Nao ha manifestacoes")
-        return manifestacoes
+        return ["Nao ha manifestacoes"]
 
     else:
         for codigo, avaliacao, tipo, descricao_manifestacao in lista_de_manifestacoes:
-            manifestacoes.append(f"{codigo}. Nota {avaliacao}. Tipo da manifestacao: {tipo}\n"
-                                 f" {descricao_manifestacao}\n" +
+            manifestacoes.append(f"Codigo: {codigo}.\nNota {avaliacao}. Tipo da manifestacao: {tipo}\n"
+                                 f"{descricao_manifestacao}\n" +
                                  "-" * 30)
 
-        return manifestacoes
+    return manifestacoes
+
 
 def listar_manifestacao_por_tipo(conexao, tipo):
     """
@@ -47,28 +74,34 @@ def listar_manifestacao_por_tipo(conexao, tipo):
     :param tipo: Tipo da manifestacao para listar
     :return: lista de manifestacoes filtradas pelo tipo
     """
+    if tipo is None:
+        return ["Operacao cancelada"]
 
-    sql_listagem_por_tipo = "select codigo, avaliacao, descricao_manifestacao from manifestacoes where tipo = %s"
+    sql_listagem_por_tipo = "select avaliacao, descricao_manifestacao from manifestacoes where tipo = %s"
     lista_de_manifestacoes_filtradas = listarBancoDados(conexao, sql_listagem_por_tipo, (tipo, ))
+
+    if not lista_de_manifestacoes_filtradas:
+        return [f"Nao ha manifestacoes do tipo {tipo}"]
 
     manifestacoes = []
 
-    if not lista_de_manifestacoes_filtradas:
-        manifestacoes.append(f"Nao ha manifestacoes do tipo {tipo}")
-        return manifestacoes
 
-    else:
-        for codigo, avaliacao, descricao_manifestacao in lista_de_manifestacoes_filtradas:
-            manifestacoes.append(f"{codigo}. Nota {avaliacao}.\n"
-                                 f" {descricao_manifestacao}\n" +
-                                 "-" * 30)
+    for i, (avaliacao, descricao_manifestacao) in enumerate(lista_de_manifestacoes_filtradas, start=1):
+        manifestacoes.append(f"{i}. Nota {avaliacao}.\n"
+                            f" {descricao_manifestacao}\n" +
+                            "-" * 30)
 
-        return manifestacoes
+    return manifestacoes
 
 def criar_manifestacao(conexao, nota, tipo, manifestacao):
     """
-    Permite ao usuário criar uma nova manifestação e adicioná-la à lista.
+    Permite ao usuário criar uma nova manifestação e adicioná-la ao banco de dados.
     Exibe o código da manifestação cadastrada.
+    :param conexao: Conexao do banco de dados
+    :param nota: Avaliacao da manifestacao
+    :param tipo: Tipo da manifestacao a ser criada
+    :param manifestacao: Descricao da manifestacao
+    :return: String formatada mostrando o codigo da manifestacao e uma mensagem diferente depedendo da nota
     """
     dados = [nota, tipo, manifestacao]
 
@@ -77,16 +110,34 @@ def criar_manifestacao(conexao, nota, tipo, manifestacao):
 
 
     return (f"Manifestacao cadastrada com sucesso. Seu codigo e {codigo_atual} "
-            f"{f'Obrigado pela nota {nota}' if nota >= 3 else 
+            f"{f'\nObrigado pela nota {nota}' if nota >= 3 else 
             '\nLamentamos que sua experiência não tenha sido satisfatória. '
             'Seu feedback é muito importante para melhorarmos nossos serviços.'}")
+
+def atualizar_quantidade(conexao):
+    """
+    Atualiza a quantidade de manifestacoes
+    :param conexao: Conexao do banco de dados
+    :return: quantidade de manifestacoes
+    """
+    quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
+    return quantidade_de_manifestacoes[0][0]
+
+def atualizar_codigos(conexao):
+    """
+    Atualiza a lista de codigos disponiveis
+    :param conexao: Conexao do banco de dados
+    :return: lista de codigos disponiveis
+    """
+    codigos_das_manifestacoes = listarBancoDados(conexao, "select codigo from manifestacoes")
+    return [codigo[0] for codigo in codigos_das_manifestacoes]
 
 def exibir_quantidade_manifestacoes(conexao):
     """
     Exibe a quantidade total de manifestações cadastradas.
     """
-    quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
-    return f"Quantidade de manifestacoes cadastradas: {quantidade_de_manifestacoes[0][0]}"
+    quantidade = atualizar_quantidade(conexao)
+    return f"Quantidade de manifestacoes cadastradas: {quantidade}"
 
 def pesquisar_manifestacao(conexao, codigo):
     """
@@ -97,10 +148,10 @@ def pesquisar_manifestacao(conexao, codigo):
     :return: string formatada com a manifestacao pesquisada
     """
     manifestacao_pesquisada = []
+    codigos_manifestacoes_disponiveis = atualizar_codigos(conexao)
 
-    if  codigo not in codigos_filmes_disponiveis or codigo < 0:
-        manifestacao_pesquisada.append("\033[31;1mCodigo pesquisado invalido\033[m")
-        return manifestacao_pesquisada
+    if  codigo not in codigos_manifestacoes_disponiveis or codigo < 0:
+        return ["\033[31;1mCodigo pesquisado invalido\033[m"]
 
     else:
 
@@ -109,76 +160,130 @@ def pesquisar_manifestacao(conexao, codigo):
 
 
         for codigo, avaliacao, tipo, descricao_manifestacao, data in codigo_pesquisado:
-            manifestacao_pesquisada.append(f"{codigo}. Nota {avaliacao}. Tipo da manifestacao: {tipo}\n"
-                                           f" {descricao_manifestacao}\n" +
-                                           f"Criada em {data}\n" + "-" * 30)
+            manifestacao_pesquisada.append("-" * 30 + f"\nCodigo: {codigo}.\n"
+                                            f"Nota {avaliacao}.\nTipo da manifestacao: {tipo}\n"
+                                            f"{descricao_manifestacao}\n" +
+                                            f"Criada em {data}\n" + "-" * 30)
 
         return manifestacao_pesquisada
 
 def excluir_manifestacao(conexao, codigo):
+    """
+    Exclui uma manifestacao do banco de dados
+    :param conexao: Conexao do banco de dados
+    :param codigo: Codigo da manifestacao a ser excluida
+    :return: Se foi possivel excluir ou nao
+    """
+    quantidade = atualizar_quantidade(conexao)
 
-    if quantidade_de_manifestacoes == 0:
+    if quantidade == 0:
         return "Nao ha manifestacoes"
 
-    else:
-        manifestacao_para_excluir = listarBancoDados(conexao, "Select * from manifestacoes where codigo = %s",
+    manifestacao_para_excluir = listarBancoDados(conexao, "Select * from manifestacoes where codigo = %s",
                                                      (codigo, ))
-        manifestacao_para_excluir = manifestacao_para_excluir[0]
+    if not manifestacao_para_excluir:
+        return "\033[31;1mCodigo nao encontrado\033[m"
 
-        sql_excluir = "delete from manifestacoes where codigo = %s"
-        manifestacao_excluida = excluirBancoDados(conexao, sql_excluir, (codigo, ))
+    manifestacao_para_excluir = manifestacao_para_excluir[0]
 
-        return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
-                f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
+    sql_excluir = "delete from manifestacoes where codigo = %s"
+    excluirBancoDados(conexao, sql_excluir, (codigo, ))
+
+    return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
+            f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
+
 
 
 
 # Funcoes para o programa principal da ouvidoria:
 
+def cancelar_operacao(valor):
+    """
+    Possibilita cancelar uma operacao
+    :param valor: Valor para cancelar
+    :return: True ou False para cancelar
+    """
+    if valor is None:
+        print("\033[33mOperação cancelada.\033[m")
+        return True
+
+    return False
+
+
 def listagem_das_manifestacoes(lista):
+    """
+    Print formatado de uma lista
+    """
     for manifestacao in lista:
         print(manifestacao)
         sleep(0.5)
 
 
-def validar_opcao(texto):
+def validar_inteiro(texto, minimo, maximo):
+    """
+    Valida um numero inteiro
+    :param texto: Texto para ser exibido ao pedir entrada do usuario
+    :param minimo: minimo permitido
+    :param maximo: Maximo permitido
+    :return: Valor verificado
+    """
+    print(f"Digite {maximo + 1} para cancelar")
     while True:
         try:
-            opcao = int(input(texto))
+            inteiro = int(input(texto))
 
-            if 1 <= opcao <= 7:
-                return opcao
+            if inteiro == maximo + 1:
+                return None
 
+            if minimo <= inteiro <= maximo:
+                return inteiro
 
             else:
-                print("\033[31;1mDigite um valor entre 1 e 7\033[m")
+                print(f"\033[31;1mDigite um valor entre {minimo} e {maximo + 1}\033[m")
 
         except ValueError:
             print("\033[31;1mERRO. Digite um valor valido\033[m")
 
 def validar_tipo_manifestacao():
+    """
+    Valida o tipo de manifestacao
+    :return: Tipo verificado
+    """
     tipos_de_manifestacoes = ["Sugestao", "Elogio", "Reclamacao"]
     print("Tipos de manifestacoes: ")
+
     for tipo in tipos_de_manifestacoes:
         print(tipo)
+
+    print("Digite 'cancelar' para cancelar a operacao")
     print("-" * 30)
-    tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
 
-    while tipo not in tipos_de_manifestacoes:
-        print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
-        print("Tipos de manifestacoes: ")
-        for tipo in tipos_de_manifestacoes:
-            print(tipo)
+    while True:
         tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
+        if tipo == "Cancelar":
+            return None
 
-    return tipo
+        if tipo in tipos_de_manifestacoes:
+            return tipo
+
+        print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
+
 
 def validar_codigo_da_manifestacao():
+    """
+    Verifica se o codigo da manifestacao e possibilita cancelar a operacao
+    :return:
+    """
+    codigos_manifestacoes_disponiveis = atualizar_codigos(conexao)
     while True:
+        print("Digite 0 para cancelar")
         try:
             codigo = int(input("Digite o codigo da manisfetacao: "))
 
-            if codigo > 0 and codigo in codigos_filmes_disponiveis:
+            if codigo == 0:
+                return None
+
+            elif codigo > 0 and codigo in codigos_manifestacoes_disponiveis:
                 return codigo
 
             else:

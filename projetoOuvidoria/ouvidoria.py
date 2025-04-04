@@ -1,4 +1,3 @@
-from time import sleep
 from funcoes_ouvidoria import *
 
 def main():
@@ -6,14 +5,29 @@ def main():
     Função principal que gerencia o fluxo do programa.
     Mantém o loop do menu até que o usuário escolha sair.
     """
+    quantidade_de_manifestacoes = atualizar_quantidade(conexao)
     opcao = -1
 
     while opcao != 7:
         print(exibir_menu())
-        opcao = validar_opcao("Digite sua opcao: ")
+        while True:
+            try:
+                opcao = int(input("Digite sua opcao: "))
+
+                if 1 <= opcao <= 7:
+                    break
+
+                else:
+                    print(f"\033[31;1mDigite uma opcao entre 1 e 7\033[m")
+
+            except ValueError:
+                print("\033[31;1mERRO. Digite uma opcao entre 1 e 7\033[m")
+
+
         quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
         quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
         lista_manifestacoes = listar_manifestacoes(conexao)
+        codigos_disponiveis = atualizar_codigos(conexao)
 
         if opcao == 1:
             sleep(0.5)
@@ -21,14 +35,27 @@ def main():
 
         elif opcao == 2:
             tipo = validar_tipo_manifestacao()
+            if cancelar_operacao(tipo):
+                continue
+
             lista_filtrada_manifestacoes = listar_manifestacao_por_tipo(conexao, tipo)
             listagem_das_manifestacoes(lista_filtrada_manifestacoes)
 
         elif opcao == 3:
-            nota = validar_opcao("Digite uma nota entre 1 e 5: ")
-            tipo = validar_tipo_manifestacao()
+            nota = validar_inteiro("Digite uma nota entre 1 e 5: ", 1, 5)
+            if cancelar_operacao(nota):
+                continue
 
-            manifestacao = input("Descreva sua manifestacao: ")
+            tipo = validar_tipo_manifestacao()
+            if cancelar_operacao(tipo):
+                continue
+
+            manifestacao = input("Descreva sua manifestacao (Deixe em branco para cancelar): ")
+
+            if not manifestacao.strip():
+                print("\033[33mOperação cancelada.\033[m")
+                continue
+
             print(criar_manifestacao(conexao, nota, tipo, manifestacao))
 
         elif opcao == 4:
@@ -36,20 +63,27 @@ def main():
 
         elif opcao == 5:
             sleep(0.5)
+            lista_manifestacoes = listar_manifestacao_com_codigo(conexao)
             listagem_das_manifestacoes(lista_manifestacoes)
             codigo = validar_codigo_da_manifestacao()
+            if cancelar_operacao(codigo):
+                continue
+
             manifestacao_pesquisada = pesquisar_manifestacao(conexao, codigo)
             for item in manifestacao_pesquisada:
                 print(item)
             sleep(1)
 
         elif opcao == 6:
+
             codigo = validar_codigo_da_manifestacao()
+
+            if cancelar_operacao(codigo):
+                continue
+
             print(excluir_manifestacao(conexao, codigo))
-
-
         elif opcao == 7:
-            print("Saindo do programa. Obrigado por usar")
+            print("\033[32;1mSaindo do programa. Obrigado por usar\033[m")
             encerrarConexao(conexao)
 
 
