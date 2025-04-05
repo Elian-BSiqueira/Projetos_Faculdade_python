@@ -186,10 +186,13 @@ def excluir_manifestacao(conexao, codigo):
     manifestacao_para_excluir = manifestacao_para_excluir[0]
 
     sql_excluir = "delete from manifestacoes where codigo = %s"
-    excluirBancoDados(conexao, sql_excluir, (codigo, ))
+    exclusao = excluirBancoDados(conexao, sql_excluir, (codigo, ))
 
-    return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
-            f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
+    if exclusao > 0:
+        return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
+                f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
+    else:
+        return "\033[31;1mErro ao excluir manifestacao\033[m"
 
 # Funcoes para o programa principal da ouvidoria:
 
