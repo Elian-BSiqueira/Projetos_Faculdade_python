@@ -66,7 +66,6 @@ def listar_manifestacao_com_codigo(conexao):
 
     return manifestacoes
 
-
 def listar_manifestacao_por_tipo(conexao, tipo):
     """
     Lista as manifestacoes de acordo com o tipo
@@ -192,9 +191,6 @@ def excluir_manifestacao(conexao, codigo):
     return (f"Manifestacao: Codigo {manifestacao_para_excluir[0]}. Nota {manifestacao_para_excluir[1]}. Tipo da "
             f"manifestacao: {manifestacao_para_excluir[2]}\n {manifestacao_para_excluir[3]}\n Excluida com sucesso")
 
-
-
-
 # Funcoes para o programa principal da ouvidoria:
 
 def cancelar_operacao(valor):
@@ -209,7 +205,6 @@ def cancelar_operacao(valor):
 
     return False
 
-
 def listagem_das_manifestacoes(lista):
     """
     Print formatado de uma lista
@@ -217,7 +212,6 @@ def listagem_das_manifestacoes(lista):
     for manifestacao in lista:
         print(manifestacao)
         sleep(0.5)
-
 
 def validar_inteiro(texto, minimo, maximo):
     """
@@ -267,7 +261,6 @@ def validar_tipo_manifestacao():
             return tipo
 
         print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
-
 
 def validar_codigo_da_manifestacao():
     """
