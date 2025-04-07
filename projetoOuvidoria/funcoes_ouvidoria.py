@@ -120,7 +120,10 @@ def atualizar_quantidade(conexao):
     :return: quantidade de manifestacoes
     """
     quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
-    return quantidade_de_manifestacoes[0][0]
+    if quantidade_de_manifestacoes > 0:
+        return quantidade_de_manifestacoes[0][0]
+    else:
+        return 0
 
 def atualizar_codigos(conexao):
     """
@@ -129,7 +132,10 @@ def atualizar_codigos(conexao):
     :return: lista de codigos disponiveis
     """
     codigos_das_manifestacoes = listarBancoDados(conexao, "select codigo from manifestacoes")
-    return [codigo[0] for codigo in codigos_das_manifestacoes]
+    if codigos_das_manifestacoes > 0:
+        return [codigo[0] for codigo in codigos_das_manifestacoes]
+    else:
+        return ["Nao ha manifestacoes a serem pesquisadas"]
 
 def exibir_quantidade_manifestacoes(conexao):
     """
@@ -239,7 +245,7 @@ def validar_inteiro(texto, minimo, maximo):
                 print(f"\033[31;1mDigite um valor entre {minimo} e {maximo + 1}\033[m")
 
         except ValueError:
-            print("\033[31;1mERRO. Digite um valor valido\033[m")
+            print("\033[31;1mERRO. Digite um numero valido\033[m")
 
 def validar_tipo_manifestacao():
     """
@@ -286,4 +292,4 @@ def validar_codigo_da_manifestacao():
                 print("\033[31;1mCódigo inválido!\033[m")
 
         except ValueError:
-            print("\033[31;1mEntrada invalida!\033[m")
+            print("\033[31;1mDigite um codigo valido!\033[m")

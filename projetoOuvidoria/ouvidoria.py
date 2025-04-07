@@ -24,16 +24,23 @@ def main():
                 print("\033[31;1mERRO. Digite uma opcao entre 1 e 7\033[m")
 
 
-        quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
-        quantidade_de_manifestacoes = quantidade_de_manifestacoes[0][0]
-        lista_manifestacoes = listar_manifestacoes(conexao)
+        quantidade_de_manifestacoes = atualizar_quantidade(conexao)
+
         codigos_disponiveis = atualizar_codigos(conexao)
 
         if opcao == 1:
             sleep(0.5)
-            listagem_das_manifestacoes(lista_manifestacoes)
+            if quantidade_de_manifestacoes == 0:
+                print("\033[31mNao ha manifestacoes cadastradas\033[m")
+            else:
+                lista_manifestacoes = listar_manifestacoes(conexao)
+                listagem_das_manifestacoes(lista_manifestacoes)
 
         elif opcao == 2:
+            if quantidade_de_manifestacoes == 0:
+                print("Nao ha manifestacoes cadastradas")
+                continue
+
             tipo = validar_tipo_manifestacao()
             if cancelar_operacao(tipo):
                 continue
@@ -63,6 +70,10 @@ def main():
 
         elif opcao == 5:
             sleep(0.5)
+            if quantidade_de_manifestacoes == 0:
+                print("Nao ha manifestacoes cadastradas")
+                continue
+
             lista_manifestacoes = listar_manifestacao_com_codigo(conexao)
             listagem_das_manifestacoes(lista_manifestacoes)
             codigo = validar_codigo_da_manifestacao()
@@ -75,6 +86,9 @@ def main():
             sleep(1)
 
         elif opcao == 6:
+            if quantidade_de_manifestacoes == 0:
+                print("Nao ha manifestacoes cadastradas")
+                continue
 
             codigo = validar_codigo_da_manifestacao()
 
