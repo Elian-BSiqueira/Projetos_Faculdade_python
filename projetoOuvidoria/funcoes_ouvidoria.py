@@ -28,7 +28,7 @@ def listar_manifestacoes(conexao):
     :param conexao: Conexao do banco de dados
     :return: Lista com as manifestacoes
     """
-    sql_listagem = "select avaliacao, tipo, descricao_manifestacao from manifestacoes"
+    sql_listagem = "select codigo, avaliacao, tipo, descricao_manifestacao from manifestacoes"
     lista_de_manifestacoes = listarBancoDados(conexao, sql_listagem)
 
     manifestacoes = []
@@ -44,27 +44,7 @@ def listar_manifestacoes(conexao):
 
     return manifestacoes
 
-def listar_manifestacao_com_codigo(conexao):
-    """
-    Lista as manifestacoes mostrando seu codigo
-    :param conexao: Conexao do banco de dados
-    :return: Lista das manifestacoes com codigos
-    """
-    sql_listagem = "select codigo, avaliacao, tipo, descricao_manifestacao from manifestacoes"
-    lista_de_manifestacoes = listarBancoDados(conexao, sql_listagem)
 
-    manifestacoes = []
-
-    if not lista_de_manifestacoes:
-        return ["Nao ha manifestacoes"]
-
-    else:
-        for codigo, avaliacao, tipo, descricao_manifestacao in lista_de_manifestacoes:
-            manifestacoes.append(f"Codigo: {codigo}.\nNota {avaliacao}. Tipo da manifestacao: {tipo}\n"
-                                 f"{descricao_manifestacao}\n" +
-                                 "-" * 30)
-
-    return manifestacoes
 
 def listar_manifestacao_por_tipo(conexao, tipo):
     """
@@ -252,24 +232,11 @@ def validar_tipo_manifestacao():
     Valida o tipo de manifestacao
     :return: Tipo verificado
     """
+    tipo = validar_inteiro("1 - Sugestão\n2 - Reclamação\n3 - Elogio \nDigite o numero: ", 1, 3)
     tipos_de_manifestacoes = ["Sugestao", "Elogio", "Reclamacao"]
-    print("Tipos de manifestacoes: ")
-    tipos_alternados_manifestacoes = ["Sugestão", "Reclamação", "Reclamaçao", "Reclamacão"]
-    for tipo in tipos_de_manifestacoes:
-        print(tipo)
 
-    print("Digite 'cancelar' para cancelar a operacao")
-    print("-" * 30)
+    return tipo
 
-    while True:
-        tipo = input("Digite o tipo da manifestacao: ").strip().capitalize()
-        if tipo == "Cancelar":
-            return None
-
-        if tipo in tipos_de_manifestacoes or tipo in tipos_alternados_manifestacoes:
-            return tipo
-
-        print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
 
 def validar_codigo_da_manifestacao():
     """

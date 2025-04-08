@@ -53,8 +53,7 @@ def main():
                 continue
 
             tipo = validar_tipo_manifestacao()
-            if cancelar_operacao(tipo):
-                continue
+
 
             manifestacao = input("Descreva sua manifestacao (Deixe em branco para cancelar): ")
 
