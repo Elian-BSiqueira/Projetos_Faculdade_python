@@ -37,8 +37,8 @@ def listar_manifestacoes(conexao):
         return ["Nao ha manifestacoes"]
 
     else:
-        for i, (avaliacao, tipo, descricao_manifestacao) in enumerate(lista_de_manifestacoes,start=1):
-            manifestacoes.append(f"{i}. Nota {avaliacao}. Tipo da manifestacao: {tipo}\n"
+        for i, (codigo, avaliacao, tipo, descricao_manifestacao) in enumerate(lista_de_manifestacoes,start=1):
+            manifestacoes.append(f"{i}. Nota {avaliacao}.\nCodigo. {codigo} Tipo da manifestacao: {tipo}\n"
                                  f" {descricao_manifestacao}\n" +
                                  "-" * 30)
 
@@ -76,7 +76,7 @@ def listar_manifestacao_por_tipo(conexao, tipo):
     if tipo is None:
         return ["Operacao cancelada"]
 
-    sql_listagem_por_tipo = "select avaliacao, descricao_manifestacao from manifestacoes where tipo = %s"
+    sql_listagem_por_tipo = "select codigo, avaliacao, descricao_manifestacao from manifestacoes where tipo = %s"
     lista_de_manifestacoes_filtradas = listarBancoDados(conexao, sql_listagem_por_tipo, (tipo, ))
 
     if not lista_de_manifestacoes_filtradas:
@@ -85,8 +85,8 @@ def listar_manifestacao_por_tipo(conexao, tipo):
     manifestacoes = []
 
 
-    for i, (avaliacao, descricao_manifestacao) in enumerate(lista_de_manifestacoes_filtradas, start=1):
-        manifestacoes.append(f"{i}. Nota {avaliacao}.\n"
+    for i, (codigo, avaliacao, descricao_manifestacao) in enumerate(lista_de_manifestacoes_filtradas, start=1):
+        manifestacoes.append(f"{i}.\nCodigo. {codigo}\n Nota {avaliacao}.\n"
                             f" {descricao_manifestacao}\n" +
                             "-" * 30)
 
@@ -254,7 +254,7 @@ def validar_tipo_manifestacao():
     """
     tipos_de_manifestacoes = ["Sugestao", "Elogio", "Reclamacao"]
     print("Tipos de manifestacoes: ")
-
+    tipos_alternados_manifestacoes = ["Sugestão", "Reclamação", "Reclamaçao", "Reclamacão"]
     for tipo in tipos_de_manifestacoes:
         print(tipo)
 
@@ -266,7 +266,7 @@ def validar_tipo_manifestacao():
         if tipo == "Cancelar":
             return None
 
-        if tipo in tipos_de_manifestacoes:
+        if tipo in tipos_de_manifestacoes or tipo in tipos_alternados_manifestacoes:
             return tipo
 
         print(f"\033[31;1mTIPO DE MANIFESTACAO INVALIDA.\033[m")
