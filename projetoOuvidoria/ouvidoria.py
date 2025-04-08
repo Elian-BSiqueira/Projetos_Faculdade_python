@@ -89,6 +89,8 @@ def main():
                 print("Nao ha manifestacoes cadastradas")
                 continue
 
+            lista_manifestacoes = listar_manifestacao_com_codigo(conexao)
+            listagem_das_manifestacoes(lista_manifestacoes)
             codigo = validar_codigo_da_manifestacao()
 
             if cancelar_operacao(codigo):

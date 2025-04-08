@@ -182,7 +182,7 @@ def excluir_manifestacao(conexao, codigo):
     quantidade = atualizar_codigos(conexao)
 
     if quantidade == 0:
-        return "Nao ha manifestacoes"
+        return "Nao ha manifestacoes para excluir"
 
     manifestacao_para_excluir = listarBancoDados(conexao, "Select * from manifestacoes where codigo = %s",
                                                      (codigo, ))
