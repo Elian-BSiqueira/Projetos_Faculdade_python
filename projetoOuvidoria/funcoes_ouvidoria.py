@@ -120,7 +120,7 @@ def atualizar_quantidade(conexao):
     :return: quantidade de manifestacoes
     """
     quantidade_de_manifestacoes = listarBancoDados(conexao, "select count(*) from manifestacoes")
-    if quantidade_de_manifestacoes > 0:
+    if quantidade_de_manifestacoes != "":
         return quantidade_de_manifestacoes[0][0]
     else:
         return 0
@@ -132,7 +132,7 @@ def atualizar_codigos(conexao):
     :return: lista de codigos disponiveis
     """
     codigos_das_manifestacoes = listarBancoDados(conexao, "select codigo from manifestacoes")
-    if codigos_das_manifestacoes > 0:
+    if codigos_das_manifestacoes != "":
         return [codigo[0] for codigo in codigos_das_manifestacoes]
     else:
         return ["Nao ha manifestacoes a serem pesquisadas"]
@@ -179,7 +179,7 @@ def excluir_manifestacao(conexao, codigo):
     :param codigo: Codigo da manifestacao a ser excluida
     :return: Se foi possivel excluir ou nao
     """
-    quantidade = atualizar_quantidade(conexao)
+    quantidade = atualizar_codigos(conexao)
 
     if quantidade == 0:
         return "Nao ha manifestacoes"

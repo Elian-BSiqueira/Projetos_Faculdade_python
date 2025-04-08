@@ -5,7 +5,6 @@ def main():
     Função principal que gerencia o fluxo do programa.
     Mantém o loop do menu até que o usuário escolha sair.
     """
-    quantidade_de_manifestacoes = atualizar_quantidade(conexao)
     opcao = -1
 
     while opcao != 7:
