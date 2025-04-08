@@ -41,6 +41,18 @@ Este projeto é um sistema de ouvidoria desenvolvido em Python, que permite aos 
 
 3. **Configuração do Banco de Dados**:
    - Crie um banco de dados MySQL usando o Dump disponibilizado
+   - 2. Usando o MySQL Workbench (Interface Gráfica)
+Abra o MySQL Workbench e conecte-se ao seu servidor
+
+No menu superior, selecione Server > Data Import
+
+Selecione "Import from Self-Contained File"
+
+Navegue até o arquivo dump.sql baixado
+
+Selecione o banco de dados de destino ou crie um novo
+
+Clique em Start Import
    - Configure as credenciais no arquivo em um novo arquivo chamado`config.py`:
      ```python
      host = "seu_host"

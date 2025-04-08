@@ -37,21 +37,4 @@ CREATE TABLE `manifestacoes` (
 
 --
 -- Dumping data for table `manifestacoes`
---
 
-LOCK TABLES `manifestacoes` WRITE;
-/*!40000 ALTER TABLE `manifestacoes` DISABLE KEYS */;
-INSERT INTO `manifestacoes` VALUES (1,5,'Elogio','Ótimo atendimento, fui muito bem tratado e meu problema foi resolvido rapidamente.','2025-03-28 16:46:58'),(2,3,'Reclamacao','O atendimento foi mediano, demorou um pouco para responderem, mas resolveram meu problema.','2025-03-28 16:46:58'),(3,1,'Reclamacao','Péssimo serviço! Estou esperando uma resposta há mais de uma semana e nada até agora.','2025-03-28 16:46:58'),(4,4,'Sugestao','Bom atendimento, mas poderia ser um pouco mais rápido. No geral, foi uma boa experiência.','2025-03-28 16:46:58'),(5,2,'Elogio','Não gostei do suporte, foram educados, mas não resolveram meu problema corretamente.','2025-03-28 16:46:58'),(6,5,'Elogio','Atendimente incrivel, super recomendo','2025-03-28 18:16:01'),(7,4,'Elogio','Gostei','2025-03-29 17:06:33'),(8,2,'Elogio','.','2025-03-29 17:20:51'),(9,4,'Elogio','nada a comentar','2025-03-29 17:22:31');
-/*!40000 ALTER TABLE `manifestacoes` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2025-04-01 22:35:26
